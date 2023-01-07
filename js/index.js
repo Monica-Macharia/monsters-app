@@ -3,10 +3,7 @@
 //create a form, POST on the DOM
 //event listener to the arrow buton  that GETs moonsters with limits and page
 
-fetch("http://localhost:3000/monsters/?_limit=50&_page=3")
-.then(res => res.json())
-.then(data => data.map(monster => displayFunction(monster))
-)
+
 function displayFunction(monster){
     
     let container = document.querySelector("#monster-container")
@@ -23,6 +20,10 @@ function displayFunction(monster){
     
 }
 
+fetch("http://localhost:3000/monsters/?_limit=50&_page=3")
+.then(res => res.json())
+.then(data => data.map(monster => displayFunction(monster))
+)
 
 let form= document.querySelector("form")
 
@@ -34,33 +35,36 @@ let name = document.querySelector("input#name").value
 let age = document.querySelector("input#age").value
 let description = document.querySelector("input#desc").value
 
-
 form.addEventListener("submit", function(e){
-    e.preventDefault()
-    let newObj = {
+
+    e.preventDefault();
+  
+        let newObj = {
     name: name,
     age: age,
     description: description
-}
-   
-  
-displayFunction(newObj)
+    }
 
-   fetch("http://localhost:3000/monsters", {
+    fetch("http://localhost:3000/monsters", {
         method: "POST",
        header: {
         "Content-Type":   "application/json",
         Accept: "application/json" 
    },
-        body: newObj
+        body: JSON.stringify(newObj)
    })
    .then(res => res.json())
    .then(data => console.log(data))
    .catch(error => error.message)
 
-   
- 
+    
+
+   displayFunction(newObj)
+  
+  
 })
+
+
 
  
 
